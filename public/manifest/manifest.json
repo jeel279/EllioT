@@ -1,0 +1,15 @@
+{
+    "name": "Ellio-T",
+    "short_name": "Ellio-T",
+    "lang": "en-US",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#512DBA",
+    "icons": [
+      {
+        "src": "/2_objects.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

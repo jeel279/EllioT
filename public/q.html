@@ -1,0 +1,105 @@
+<head>
+    <meta name="theme-color" content="#4527A0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://materializecss.com/css/ghpages-materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <title>Home - EllioT</title>
+    <style>
+        body{
+            display: flow-root;
+            background-color: #512DAB;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            user-select: none;
+        }
+        .centered{
+            width: 100%;
+            position: relative;
+            margin-top: 50%;
+            color: black;
+            font-family: system-ui;
+            padding: 10%;
+        }
+        .underDiv{
+            width: 100%;
+            position: relative;
+            vertical-align: middle;
+            text-align: center;
+            color: wheat;
+            font-family: system-ui;
+        }
+        .footer{
+            position: fixed;
+            bottom: 0 !important;
+            padding: 10px;
+            background-color: #ffffff;
+            width: 100%;
+        }
+#pin {
+  padding-left: 15px;
+  letter-spacing: 42px;
+  border: 0;
+  background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 50px 1px;
+  background-repeat: repeat-x;
+  background-position-x: 40px;
+  width: 220px;
+  min-width: 220px;
+}
+
+#divInner{
+  left: 0;
+  position: sticky;
+}
+
+#divOuter{
+  width: 190px; 
+  overflow: hidden;
+}
+
+input:focus{
+    border-bottom: 0px solid #26a69a !important;
+    -webkit-box-shadow: 0 0px 0 0 #26a69a !important;
+    box-shadow: 0 0px 0 0 #26a69a !important;
+}
+
+.btn-flat:hover{
+    background-color: #ffffff !important;
+}
+    </style>
+    </head>
+    <body>
+        <div class="centered">
+            <div class="card white">
+                <div class="card-content center black-text">
+                  <span class="card-title">Enter PIN</span>
+                  <center>
+                    <div id="divOuter">
+                        <div id="divInner">
+                            <input id="pin" type="number" maxlength="4" />
+                        </div>
+                    </div>
+                </center>
+                <br>
+                <span id='pinS' class="btn btn-flat waves-effect" style="color: #512DAB;border: 1px solid #512DAB !important;">Confirm</span>
+                </div>
+              </div>
+        </div>
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
+<script src="js/jquery-3.5.1.js"></script>
+<script>
+    var socket = io.connect("/");
+    var token;
+    socket.on('newToken', function(data) {
+       token = data.token;
+    });
+    $("#pinS").click(function(){
+        $.post("auth",{pin:$("#pin").val(),token:token},function(data){
+            if(data[0]) localStorage.setItem("iD",data[1]);
+            location.assign('.');
+        });
+    })
+    
+</script>

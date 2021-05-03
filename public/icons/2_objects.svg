@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="130px" height="130px" viewbox="0 0 130 130" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 65C0 29.1015 29.1015 0 65 0C100.899 0 130 29.1015 130 65C130 100.899 100.899 130 65 130C29.1015 130 0 100.899 0 65Z" id="Ellipse" fill="#512DAB" fill-rule="evenodd" stroke="none" />
+  <g id="ET" transform="translate(3 17)">
+    <g id="E" fill="#FFFFFF">
+      <path d="M62.6172 73.207L35.8984 73.207L35.8984 22.793L61.4922 22.793L61.4922 28.1367L41.8047 28.1367L41.8047 44.9063L60.0156 44.9063L60.0156 50.2148L41.8047 50.2148L41.8047 67.8633L62.6172 67.8633L62.6172 73.207Z" />
+    </g>
+    <g id="T" fill="#FFFFFF" transform="translate(29 0)">
+      <path d="M65.0605 28.1367L50.5059 28.1367L50.5059 73.207L44.5996 73.207L44.5996 28.1367L30.0801 28.1367L30.0801 22.793L65.0605 22.793L65.0605 28.1367Z" />
+    </g>
+  </g>
+</svg>

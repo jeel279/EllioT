@@ -1,0 +1,33 @@
+{
+  "name": "ellio-t",
+  "version": "1.0.0",
+  "description": "Phone To PC Quick Connector",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeel Vachhani",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "ip": "^1.1.5",
+    "multer": "^1.4.2",
+    "qrcode": "^1.4.4",
+    "socket.io": "^3.1.0"
+  },
+  "devDependencies": {
+    "electron": "^11.2.1"
+  },
+  "build": {
+    "appId": "ellio.t",
+    "productName": "Ellio-T",
+    "win": {
+      "asar": true,
+      "target": "nsis",
+      "icon": "icon.png"
+    }
+  }
+}

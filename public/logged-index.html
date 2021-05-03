@@ -1,0 +1,192 @@
+<head>
+    <meta name="theme-color" content="#4527A0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://materializecss.com/css/ghpages-materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <link rel="manifest" href="manifest/manifest.json">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Ellio-T">
+<meta name="apple-mobile-web-app-title" content="Ellio-T">
+<meta name="theme-color" content="#512DBA">
+<meta name="msapplication-navbutton-color" content="#512DBA">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="msapplication-starturl" content="/">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" type="image/ico" sizes="512x512" href="icons/favicon.ico">
+<link rel="apple-touch-icon" type="image/ico" sizes="512x512" href="icons/favicon.ico">
+    <title>Home - EllioT</title>
+    <style>
+    body{
+        display: flow-root;
+        background-color: #512DAB;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        user-select: none;
+    }
+    nav{
+        box-shadow: 0px 0px 0px 0px !important;
+        -webkit-box-shadow: 0px 0px 0px 0px !important;
+    }
+    i{
+        color: white;
+    }
+    .brand-logo.left{
+        padding-left: 10px !important;
+    }
+    .brand-logo > small{
+        font-size: small !important;
+    }
+    .tabs > .tab > a{
+        color: white !important;
+    }
+    .indicator{
+        background-color: white !important;
+    }
+    .tabs .tab a:focus, .tabs .tab a:focus.active {
+        background-color: transparent !important;
+        outline: none;
+    }
+    #files,#message{
+        padding-top: 25px;
+        height: 85%;
+    }
+    #fileList > div.bt{
+        margin-top: 15px;
+        display: flex;
+        color: #FFFFFF;
+        text-transform:none;
+        border:1px solid white;
+        border-radius:5px;
+        white-space: nowrap;
+    }
+    #fileList > div > #fname{
+        overflow-x: auto !important;
+    display: block !important;
+    height: fit-content !important;
+    width: -webkit-fill-available;
+    text-align: justify;
+    }
+    .break {
+        flex-basis: 100%;
+        height: 0;
+    }
+    .determinate{
+        background-color: #512DAB !important;
+    }
+    .progress{
+        background-color: rgba(80, 45, 169, 0.28) !important;
+    }
+    .chip{
+        background-color: transparent !important;
+        border: 1px solid rgba(80, 45, 169, 0.28);
+        color: #212121;
+    }
+    .chip .close {
+    cursor: pointer;
+    float: left !important;
+    font-size: 16px;
+    line-height: 32px;
+    padding-right: 8px !important;
+    }
+
+    </style>
+</head>
+<body>
+    <nav class="transparent">
+        <span class="brand-logo left">Ellio-T <small>v1.0</small></span>
+        <a href="#" id="disconnect" class="brand-logo right"><i class="material-icons">power_settings_new</i></a>
+    </nav>
+
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs transparent">
+        <li class="tab col s3"><a href="#files" class="active">Files</a></li>
+        <li class="tab col s3"><a href="#message">Quick Message</a></li>
+      </ul>
+    </div>
+    <div id="files" class="col s12">
+        <a class="btn btn-large white waves-effect" id='addFile_btn' style="display: block;color: #512DAB;"><i class="material-icons left" style="color: #512DAB !important;">add</i><span style="margin-right: 1.6rem;font-weight: 500;">Add Files</span></a>
+        <div style="display: block;text-align: center;" id="fileList">
+
+        </div>
+        <a class="btn btn-large white waves-effect" id='sendFile_btn' style="position:fixed;bottom: 20px;display: block;color: #512DAB;left:30%;right: 30%;"><i class="material-icons left" style="color: #512DAB !important;">send</i><span style="margin-right: 1.6rem;font-weight: 500;">Send Files</span></a>
+        <a class="btn btn-large white waves-effect" id='reloadFile_btn' style="position:fixed;bottom: 20px;display: none;color: #512DAB;left:30%;right: 30%;"><i class="material-icons left" style="color: #512DAB !important;">done</i><span style="margin-right: 1.6rem;font-weight: 500;">Completed</span></a>
+    </div>
+    <div id="message" class="col s12">
+
+    </div>
+    <input type="file" style="display: none;" id='fileAdder' multiple/>
+  </div>        
+</body>
+<script src="js/jquery-3.5.1.js"></script>
+<script src="js/a2cjojwxaoq.js"></script>
+<script src="https://materializecss.com/docs/js/jquery.timeago.min.js"></script>
+<script src="https://materializecss.com/docs/js/prism.js"></script>
+<script src="https://materializecss.com/docs/js/lunr.min.js"></script>
+<script src="https://materializecss.com/docs/js/search.js"></script>
+<script src="https://materializecss.com/bin/materialize.js"></script>
+<script src="https://materializecss.com/docs/js/init.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('/');
+
+    var FileArray = Array();
+
+    function refresh_fileList(){
+        $("#fileList").empty();
+        for(var i=0;i<FileArray.length;i++){
+            var chipgrp = "<div style='width:100%;display:flow-root'><span style='float:left' id='tPr_"+i+"' class='chip'></span><span style='float:left' id='tSp_"+i+"' class='chip'></span><span style='float:right;background-color:#e53935 !important;color: white !important;padding-left:0;' aid="+i+" id='tCls' class='chip waves-effect'><i class='close material-icons'>close</i>Cancel</span></div>";
+            var prgbr = "<div style='display:block' class='progress'><div id='orig_"+i+"' class='determinate' style='width:0%'></div></div>";
+            var str = "<div id='fileO_"+i+"' style='display:none;width:100%' class='card-panel white'><span style='text-align:left;font-weight:500;white-space:nowrap;overflow-x:auto;display:block;text-transform:none'>"+FileArray[i].name+"</span>"+prgbr+chipgrp+"</div>";
+            $("#fileList").append("<div id='fileP_"+i+"' class=\"btn btn-large bt btn-flat transparent\"><i class='material-icons left' style='color:#FFFFFF !important;'>insert_drive_file</i><span id='fname' class='left'>"+FileArray[i].name+"</span><span class='right' id='speed' style='color:#FFFFFF;display:none'></span><i class='material-icons right' id='removeFile' fid="+i+" style='color:#FFFFFF;z-index:9999'>delete</i></div>"+str);
+        }
+        init_a();
+    }
+
+    $("#addFile_btn").click(function(){
+        $("#fileAdder").click();
+    })
+
+    $("#sendFile_btn").click(function(){
+        submit(FileArray);
+    })
+
+    function init_a(){
+        $("#removeFile").click(function(){
+            const index = $(this).attr("fid");
+            if (index > -1) {
+                FileArray.splice(index, 1);
+                refresh_fileList();
+            }
+        })
+        $("#tCls").click(function(){
+  var iqwr = $(this).attr("aid");
+  xhr[iqwr].abort();
+  
+})
+    }   
+
+    $("#fileAdder").change(function(){
+        for(var i=0;i<this.files.length;i++) FileArray.push(this.files[i]);
+        refresh_fileList();
+    })
+
+    $("#disconnect").click(function(){
+        $.post('disconnect',{i:localStorage.getItem('iD')},function(data){
+            localStorage.removeItem("iD");
+            location.reload();
+        })
+    })
+
+    socket.on('strict-5', function(data) {
+       if(parseInt(localStorage.getItem('iD'))==parseInt(data.id)){
+           localStorage.removeItem("iD");
+           location.reload();
+       }
+    });
+
+</script>
